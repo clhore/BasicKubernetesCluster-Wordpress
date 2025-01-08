@@ -1,6 +1,4 @@
-::: center
 **Kubernetes Cluster - Kubernetes + MySQL + Wordpress**
-:::
 
 Clúster Kubernetes en entorno on-premise y despliegue del aplicativo
 WordPress en alta disponibilidad. Servicios adicionales, MySQL NDB
@@ -57,10 +55,8 @@ Con el fin de balancear la carga entre los distintos nodos y no requerir
 un Load Balancer externo al clúster de Kubernetes, haremos uso de
 MetalLB Load Balancer y VIPs (Virtual IPs and Service Proxies).
 
-::: center
 ![image](images/schema/scheme_cluster_kubernetes.png)
 ![image](images/schema/schema_metallb_load_balancer.png)
-:::
 
 ## MySQL NDB Cluster
 
@@ -83,9 +79,7 @@ con 1 nodo manager, 2 nodos de datos y 1 nodo SQL.
     base de datos y con los nodos cliente como en este caso la red del
     clúster de Kubernetes.
 
-::: center
 ![image](images/schema/schema_mysql_ndb_cluster.png)
-:::
 
 ## Servidor NFS
 
@@ -103,9 +97,7 @@ llevarse a cabo sobre el servidor NFS.
 Esquema general de la infraestructura a implementar, donde observamos la
 conectividad entre nodos.
 
-::: center
 ![image](images/schema/infraestructura_schema.png)
-:::
 
 # Implantación infraestructura
 
@@ -124,17 +116,13 @@ Kubernetes.
 
 Empezamos configurando la IP y el HostName de los nodos.
 
-::: center
 ![image](images/schema/network_172.31.0.0.png)
-:::
 
                 # hostnamectl set-hostname srvk8s-master01
                 # vi /etc/network/interfaces
                 # ifdown ens18; ifup ens18
 
-::: center
 ![image](images/install/set_network.png)
-:::
 
 Empezamos con la instalación de Kubernetes, debemos instalar Kubernetes
 en los nodos master y worker. Posteriormente, se iniciará el clúster
@@ -226,9 +214,7 @@ Agregar nodo worker.
 
 Revisamos que los nodos se han agregado correctamente.
 
-::: center
 ![image](images/install/kubernetes_cluster_nodes.png)
-:::
 
 A modo aclaratibo indicaremos el rol de los nodos worker.
 
@@ -270,9 +256,7 @@ Habilitar el modo ARP estricto.
 
         root@srvk8s-worker01:~# kubectl edit configmap -n kube-system kube-proxy
 
-::: center
 ![image](images/install/strictARP_true.png)
-:::
 
 Instalamos MetalLB.
 
@@ -566,38 +550,28 @@ seguir para instalarlo en los distintos sistemas. En mi caso lo instaló
 sobre un nodo que tiene conectividad con la red 172.31.0.0/24 para poder
 acceder al aplicativo.
 
-::: center
 ![image](images/install/create_cloudflare_tunnels.png)
 ![image](images/install/service_cloudflare_tunnels.png)
-:::
 
 Debemos crear un host público, indicando la IP externa de WordPress.
 
-::: center
 ![image](images/install/create_host_publico.png)
-:::
 
 Una vez realizado este proceso el aplicativo ya sería accesible de forma
 pública.
 
 -   **URL:** https://transparent-edge.tertiaoptio.es
 
-::: center
 ![image](images/install/web_test1.png)
-:::
 
 **Agregamos seguridad, restricción acceso panel wp-admin** En el
 apartado access, creamos una aplicación de tipo *SELF-HOSTED*.
 
-::: center
 ![image](images/install/access_restrict.png)
-:::
 
 Agregamos las rutas a las que restringiremos el acceso.
 
-::: center
 ![image](images/install/application_domain.png)
-:::
 
 En este caso nos ofrecen dos opciones, la primera nos permite autorizar
 un correo haciendo uso del Auth de Google, la segunda nos permite
@@ -605,42 +579,32 @@ autorizar correos también, pero los correos autorizados cuando quieran
 acceder solicitarán un PIN con el que podrán acceder, dicho PIN es
 enviado a su buzón de correo.
 
-::: center
 ![image](images/install/authentication_method.png)
-:::
 
 Agregamos una política que nos permitirá controlar los buzones de correo
 que posen acceso.
 
-::: center
 ![image](images/install/policies.png)
-:::
 
 En este caso seleccionamos la opción de agregar buzones de correo
 concretos, pero también hay opción de permitir acceso a todos los
 buzones de un dominio concreto, esto para una organización es sumamente
 útil.
 
-::: center
 ![image](images/install/email_access.png)
-:::
 
 # Comprobaciones
 
 Realizamos comprobaciones.
 
-::: center
 ![image](images/install/check_policies01.png)
 ![image](images/install/web_test1.png)
 ![image](images/install/check_policies.png)
-:::
 
 Tras iniciar sesión con el buzón de correo autorizado, se puede acceder
 al login de forma correcta.
 
-::: center
 ![image](images/install/access_email.png)
-:::
 
 # Mejoras
 
@@ -687,6 +651,4 @@ ventajas:
 
 Por último una visión general del entorno on-premise implementado.
 
-::: center
 ![image](images/proxmox.png)
-:::
